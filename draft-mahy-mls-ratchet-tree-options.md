@@ -58,7 +58,7 @@ Likewise, when non-member clients want to join a group, they can do so using
 an external commit. They require the GroupInfo and the `ratchet_tree`.
 
 Many MLS implementations allow external commits to get the GroupInfo from a
-central server. In the MIMI architecture {{?RFC9750}}, this server
+central server. In the MIMI architecture {{?I-D.ietf-mimi-arch}}, this server
 is called the hub, and for brevity we will use that term generically to refer
 to any central server that provides either GroupInfo or `ratchet_tree`
 objects to new members (i.e. welcomed clients or externally joining clients).
