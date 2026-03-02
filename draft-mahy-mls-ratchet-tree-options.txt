@@ -4,8 +4,8 @@
 
 MLS                                                              R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
-Intended status: Informational                           23 October 2025
-Expires: 26 April 2026
+Intended status: Informational                              2 March 2026
+Expires: 3 September 2026
 
 
       Ways to convey the Ratchet Tree in Messaging Layer Security
@@ -53,11 +53,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 April 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -83,8 +83,9 @@ Table of Contents
      7.1.  Normative References
      7.2.  Informative References
    Appendix A.  Change Log
-     A.1.  Changes between -01 and -02
-     A.2.  Changes between -00 and -01
+     A.1.  Changes between -02 and -03
+     A.2.  Changes between -01 and -02
+     A.3.  Changes between -00 and -01
    Acknowledgments
    Author's Address
 
@@ -147,9 +148,8 @@ Table of Contents
        case httpsUrl:
          /* an HTTPS URL */
          opaque ratchet_tree_url<V>;
-         opaque tree_signature<V>;
        case outOfBand:
-         opaque tree_signature<V>;
+         struct {};
        case distributionService:
          struct {};
      };
@@ -165,8 +165,8 @@ Table of Contents
       reconstructed via an unspecified out-of-band application protocol.
 
    *  distributionService indicates that the ratchet_tree is
-      reconstructed by the Distribution Service from the handshake in
-      the group.  This is not possible if any handshake messages are
+      reconstructed by the Distribution Service (DS) from the handshake
+      in the group.  This is not possible if any handshake messages are
       sent as an MLS PrivateMessage.
 
 3.1.  Conveying the ratchet tree using HTTPS
@@ -254,7 +254,22 @@ Table of Contents
 
 5.  Security Considerations
 
-   TODO Security
+   The Security Considerations of the MLS protocol [RFC9420] and the MLS
+   architecture [RFC9750] apply.
+
+   The integrity of the ratchet tree is assured using the MLS
+   GroupContext.tree_hash (see Section 7.8 of [RFC9420]).  The tree hash
+   allows the receiver to verify that the ratchet tree is valid whether
+   it is transmitted in the ratchet_tree extension or out-of-band.
+
+   In some systems such as the MIMI protocol [I-D.ietf-mimi-protocol],
+   the DS receives a GroupInfo with each tentative commit message.  The
+   DS cannot verify the correctness of a GroupInfo because it does not
+   have the GroupInfo.extensions.  This is no different with a partial
+   GroupInfo message.  In both partial and full GroupInfo presentation,
+   given a specific GroupInfo.signature, the DS can merely verify that
+   the extensions and the signature are consistent with each other and
+   with the GroupContext.
 
 6.  IANA Considerations
 
@@ -291,6 +306,11 @@ Table of Contents
               Security (MLS) Protocol", RFC 9420, DOI 10.17487/RFC9420,
               July 2023, <https://www.rfc-editor.org/rfc/rfc9420>.
 
+   [RFC9750]  Beurdouche, B., Rescorla, E., Omara, E., Inguva, S., and
+              A. Duric, "The Messaging Layer Security (MLS)
+              Architecture", RFC 9750, DOI 10.17487/RFC9750, April 2025,
+              <https://www.rfc-editor.org/rfc/rfc9750>.
+
 7.2.  Informative References
 
    [I-D.ietf-mimi-arch]
@@ -300,12 +320,20 @@ Table of Contents
               <https://datatracker.ietf.org/doc/html/draft-ietf-mimi-
               arch-02>.
 
+   [I-D.ietf-mimi-protocol]
+              Barnes, R., Hodgson, M., Kohbrok, K., Mahy, R., Ralston,
+              T., and R. Robert, "More Instant Messaging
+              Interoperability (MIMI) using HTTPS and MLS", Work in
+              Progress, Internet-Draft, draft-ietf-mimi-protocol-05, 20
+              October 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-mimi-protocol-05>.
+
    [I-D.ietf-mls-pq-ciphersuites]
               Mahy, R. and R. Barnes, "ML-KEM and Hybrid Cipher Suites
               for Messaging Layer Security", Work in Progress, Internet-
-              Draft, draft-ietf-mls-pq-ciphersuites-00, 25 July 2025,
+              Draft, draft-ietf-mls-pq-ciphersuites-02, 2 March 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-mls-pq-
-              ciphersuites-00>.
+              ciphersuites-02>.
 
    [I-D.mahy-mls-semiprivatemessage]
               Mahy, R., "Semi-Private Messages in the Messaging Layer
@@ -323,11 +351,17 @@ Table of Contents
 
 Appendix A.  Change Log
 
-A.1.  Changes between -01 and -02
+A.1.  Changes between -02 and -03
+
+   *  Added Security Considerations
+
+   *  Removed unneeded tree_signature
+
+A.2.  Changes between -01 and -02
 
    *  Added ratchet_tree_source_domains extension
 
-A.2.  Changes between -00 and -01
+A.3.  Changes between -00 and -01
 
    *  Removed ratchet tree patch options and notation.
 
