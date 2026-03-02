@@ -99,9 +99,8 @@ struct {
     case httpsUrl:
       /* an HTTPS URL */
       opaque ratchet_tree_url<V>;
-      opaque tree_signature<V>;
     case outOfBand:
-      opaque tree_signature<V>;
+      struct {};
     case distributionService:
       struct {};
   };
@@ -115,7 +114,7 @@ URI using the `https:` scheme.
 - `outOfBand` indicates that the `ratchet_tree` is communicated or
 reconstructed via an unspecified out-of-band application protocol.
 - `distributionService` indicates that the `ratchet_tree` is reconstructed
-by the Distribution Service from the handshake in the group. This is not
+by the Distribution Service (DS) from the handshake in the group. This is not
 possible if any handshake messages are sent as an MLS `PrivateMessage`.
 
 ## Conveying the ratchet tree using HTTPS
@@ -199,7 +198,15 @@ committer (represented by its leaf index in the GroupInfo as the `signer`).
 
 # Security Considerations
 
-TODO Security
+The Security Considerations of the MLS protocol {{!RFC9420}} and the MLS architecture {{!RFC9750}} apply.
+
+The integrity of the ratchet tree is assured using the MLS `GroupContext.tree_hash` (see {{Section 7.8 of !RFC9420}}).
+The tree hash allows the receiver to verify that the ratchet tree is valid whether it is transmitted in the `ratchet_tree` extension or out-of-band.
+
+In some systems such as the MIMI protocol {{?I-D.ietf-mimi-protocol}}, the DS receives a GroupInfo with each tentative commit message.
+The DS cannot verify the correctness of a GroupInfo because it does not have the `GroupInfo.extensions`.
+This is no different with a partial GroupInfo message.
+In both partial and full GroupInfo presentation, given a specific `GroupInfo.signature`, the DS can merely verify that the extensions and the signature are consistent with each other and with the GroupContext.
 
 
 # IANA Considerations
@@ -218,6 +225,11 @@ This document registers the `ratchet_tree_source_domains` Extension Type, using 
 --- back
 
 # Change Log
+
+## Changes between -02 and -03
+
+- Added Security Considerations
+- Removed unneeded tree_signature
 
 ## Changes between -01 and -02
 
