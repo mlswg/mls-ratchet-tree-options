@@ -18,6 +18,7 @@
 /versioned/
 Gemfile.lock
 archive.json
+draft-ietf-mls-ratchet-tree-options.xml
 draft-mahy-mls-ratchet-tree-options.xml
 package-lock.json
 report.xml
