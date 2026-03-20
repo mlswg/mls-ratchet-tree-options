@@ -16,26 +16,26 @@ a way to convey these improvements in a standardized way and to
 convey the parts of a GroupInfo object that are not visible to an
 intermediary server. 
     " name="description">
-<meta content="xml2rfc 3.31.0" name="generator">
+<meta content="xml2rfc 3.32.0" name="generator">
 <meta content="ratchet_tree" name="keyword">
 <meta content="GroupInfo" name="keyword">
 <meta content="PartialGroupInfo" name="keyword">
-<meta content="draft-mahy-mls-ratchet-tree-options-latest" name="ietf.draft">
+<meta content="draft-ietf-mls-ratchet-tree-options-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.31.0
+  xml2rfc 3.32.0
     Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.0.2
-    platformdirs 4.5.1
+    platformdirs 4.9.4
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.32.5
-    wcwidth 0.3.0
+    wcwidth 0.6.0
 -->
-<link href="draft-mahy-mls-ratchet-tree-options.xml" rel="alternate" type="application/rfc+xml">
+<link href="draft-ietf-mls-ratchet-tree-options.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
 <style type="text/css">@font-face {
   font-family: 'Lora';
@@ -1058,7 +1058,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Mahy</td>
-<td class="center">Expires 3 September 2026</td>
+<td class="center">Expires 21 September 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,17 +1066,17 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <div id="internal-metadata" class="document-information">
 <dl id="identifiers">
 <dt class="label-workgroup">Workgroup:</dt>
-<dd class="workgroup">MLS</dd>
+<dd class="workgroup">Messaging Layer Security</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-mahy-mls-ratchet-tree-options-latest</dd>
+<dd class="internet-draft">draft-ietf-mls-ratchet-tree-options-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-03-02" class="published">2 March 2026</time>
+<time datetime="2026-03-20" class="published">20 March 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-09-03">3 September 2026</time></dd>
+<dd class="expires"><time datetime="2026-09-21">21 September 2026</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1104,14 +1104,15 @@ intermediary server.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
       </h2>
 <p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
 <p id="section-note.1-2">
-        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-mahy-mls-ratchet-tree-options/">https://datatracker.ietf.org/doc/draft-mahy-mls-ratchet-tree-options/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+        The latest revision of this draft can be found at <span><a href="https://messaginglayersecurity.rocks/mls-ratchet-tree-options/draft-ietf-mls-ratchet-tree-options.html">https://messaginglayersecurity.rocks/mls-ratchet-tree-options/draft-ietf-mls-ratchet-tree-options.html</a></span>.
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-ietf-mls-ratchet-tree-options/">https://datatracker.ietf.org/doc/draft-ietf-mls-ratchet-tree-options/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
 <p id="section-note.1-3">
         Discussion of this document takes place on the
-        MLS Working Group mailing list (<span><a href="mailto:mls@ietf.org">mailto:mls@ietf.org</a></span>),
+        Messaging Layer Security Working Group mailing list (<span><a href="mailto:mls@ietf.org">mailto:mls@ietf.org</a></span>),
         which is archived at <span><a href="https://mailarchive.ietf.org/arch/browse/mls/">https://mailarchive.ietf.org/arch/browse/mls/</a></span>.
         Subscribe at <span><a href="https://www.ietf.org/mailman/listinfo/mls/">https://www.ietf.org/mailman/listinfo/mls/</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
 <p id="section-note.1-4">Source for this draft and an issue tracker can be found at
-        <span><a href="https://github.com/rohanmahy/mls-ratchet-tree-options/">https://github.com/rohanmahy/mls-ratchet-tree-options/</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
+        <span><a href="https://github.com/mlswg/mls-ratchet-tree-options">https://github.com/mlswg/mls-ratchet-tree-options</a></span>.<a href="#section-note.1-4" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1132,7 +1133,7 @@ intermediary server.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 3 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 21 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1204,13 +1205,19 @@ intermediary server.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
             <p id="section-toc.1-1.8.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-change-log" class="internal xref">Change Log</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-changes-between-02-and-03" class="internal xref">Changes between -02 and -03</a></p>
+                <p id="section-toc.1-1.8.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-changes-between-draft-mahy-" class="internal xref">Changes between draft-mahy-...-04 and draft-ietf-...-00</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
-                <p id="section-toc.1-1.8.2.2.1"><a href="#appendix-A.2" class="auto internal xref">A.2</a>.  <a href="#name-changes-between-01-and-02" class="internal xref">Changes between -01 and -02</a></p>
+                <p id="section-toc.1-1.8.2.2.1"><a href="#appendix-A.2" class="auto internal xref">A.2</a>.  <a href="#name-changes-between-03-and-04" class="internal xref">Changes between -03 and -04</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3">
-                <p id="section-toc.1-1.8.2.3.1"><a href="#appendix-A.3" class="auto internal xref">A.3</a>.  <a href="#name-changes-between-00-and-01" class="internal xref">Changes between -00 and -01</a></p>
+                <p id="section-toc.1-1.8.2.3.1"><a href="#appendix-A.3" class="auto internal xref">A.3</a>.  <a href="#name-changes-between-02-and-03" class="internal xref">Changes between -02 and -03</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.4">
+                <p id="section-toc.1-1.8.2.4.1"><a href="#appendix-A.4" class="auto internal xref">A.4</a>.  <a href="#name-changes-between-01-and-02" class="internal xref">Changes between -01 and -02</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.5">
+                <p id="section-toc.1-1.8.2.5.1"><a href="#appendix-A.5" class="auto internal xref">A.5</a>.  <a href="#name-changes-between-00-and-01" class="internal xref">Changes between -00 and -01</a></p>
 </li>
             </ul>
 </li>
@@ -1500,7 +1507,7 @@ In both partial and full GroupInfo presentation, given a specific <code>GroupInf
 <dd class="break"></dd>
 <dt id="I-D.ietf-mls-pq-ciphersuites">[I-D.ietf-mls-pq-ciphersuites]</dt>
         <dd>
-<span class="refAuthor">Mahy, R.</span> and <span class="refAuthor">R. Barnes</span>, <span class="refTitle">"ML-KEM and Hybrid Cipher Suites for Messaging Layer Security"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-mls-pq-ciphersuites-02</span>, <time datetime="2026-03-02" class="refDate">2 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-mls-pq-ciphersuites-02">https://datatracker.ietf.org/doc/html/draft-ietf-mls-pq-ciphersuites-02</a>&gt;</span>. </dd>
+<span class="refAuthor">Mahy, R.</span> and <span class="refAuthor">R. Barnes</span>, <span class="refTitle">"ML-KEM and Hybrid Cipher Suites for Messaging Layer Security"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-mls-pq-ciphersuites-04</span>, <time datetime="2026-03-18" class="refDate">18 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-mls-pq-ciphersuites-04">https://datatracker.ietf.org/doc/html/draft-ietf-mls-pq-ciphersuites-04</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.mahy-mls-semiprivatemessage">[I-D.mahy-mls-semiprivatemessage]</dt>
         <dd>
@@ -1520,45 +1527,69 @@ In both partial and full GroupInfo presentation, given a specific <code>GroupInf
       <h2 id="name-change-log">
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-change-log" class="section-name selfRef">Change Log</a>
       </h2>
-<div id="changes-between-02-and-03">
+<div id="changes-between-draft-mahy-04-and-draft-ietf-00">
 <section id="appendix-A.1">
-        <h3 id="name-changes-between-02-and-03">
-<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-changes-between-02-and-03" class="section-name selfRef">Changes between -02 and -03</a>
+        <h3 id="name-changes-between-draft-mahy-">
+<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-changes-between-draft-mahy-" class="section-name selfRef">Changes between draft-mahy-...-04 and draft-ietf-...-00</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="appendix-A.1-1.1">
-            <p id="appendix-A.1-1.1.1">Added Security Considerations<a href="#appendix-A.1-1.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.1.1">No changes except for renaming the draft<a href="#appendix-A.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.1-1.2">
-            <p id="appendix-A.1-1.2.1">Removed unneeded tree_signature<a href="#appendix-A.1-1.2.1" class="pilcrow">¶</a></p>
+        </ul>
+</section>
+</div>
+<div id="changes-between-03-and-04">
+<section id="appendix-A.2">
+        <h3 id="name-changes-between-03-and-04">
+<a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-changes-between-03-and-04" class="section-name selfRef">Changes between -03 and -04</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-A.2-1.1">
+            <p id="appendix-A.2-1.1.1">Added Security Considerations<a href="#appendix-A.2-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-A.2-1.2">
+            <p id="appendix-A.2-1.2.1">Removed unneeded tree_signature<a href="#appendix-A.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="changes-between-02-and-03">
+<section id="appendix-A.3">
+        <h3 id="name-changes-between-02-and-03">
+<a href="#appendix-A.3" class="section-number selfRef">A.3. </a><a href="#name-changes-between-02-and-03" class="section-name selfRef">Changes between -02 and -03</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-A.3-1.1">
+            <p id="appendix-A.3-1.1.1">No changes except for the publication dates<a href="#appendix-A.3-1.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="changes-between-01-and-02">
-<section id="appendix-A.2">
+<section id="appendix-A.4">
         <h3 id="name-changes-between-01-and-02">
-<a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-changes-between-01-and-02" class="section-name selfRef">Changes between -01 and -02</a>
+<a href="#appendix-A.4" class="section-number selfRef">A.4. </a><a href="#name-changes-between-01-and-02" class="section-name selfRef">Changes between -01 and -02</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-A.2-1.1">
-            <p id="appendix-A.2-1.1.1">Added ratchet_tree_source_domains extension<a href="#appendix-A.2-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A.4-1.1">
+            <p id="appendix-A.4-1.1.1">Added ratchet_tree_source_domains extension<a href="#appendix-A.4-1.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="changes-between-00-and-01">
-<section id="appendix-A.3">
+<section id="appendix-A.5">
         <h3 id="name-changes-between-00-and-01">
-<a href="#appendix-A.3" class="section-number selfRef">A.3. </a><a href="#name-changes-between-00-and-01" class="section-name selfRef">Changes between -00 and -01</a>
+<a href="#appendix-A.5" class="section-number selfRef">A.5. </a><a href="#name-changes-between-00-and-01" class="section-name selfRef">Changes between -00 and -01</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-A.3-1.1">
-            <p id="appendix-A.3-1.1.1">Removed ratchet tree patch options and notation.<a href="#appendix-A.3-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A.5-1.1">
+            <p id="appendix-A.5-1.1.1">Removed ratchet tree patch options and notation.<a href="#appendix-A.5-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.3-1.2">
-            <p id="appendix-A.3-1.2.1">Added <code>ratchet_tree_presence</code> options for out-of-band, via HTTPS, and
-reconstructed by the delivery service.<a href="#appendix-A.3-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.5-1.2">
+            <p id="appendix-A.5-1.2.1">Added <code>ratchet_tree_presence</code> options for out-of-band, via HTTPS, and
+reconstructed by the delivery service.<a href="#appendix-A.5-1.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

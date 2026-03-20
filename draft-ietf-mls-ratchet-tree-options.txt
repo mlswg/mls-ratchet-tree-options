@@ -2,14 +2,14 @@
 
 
 
-MLS                                                              R. Mahy
+Messaging Layer Security                                         R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
-Intended status: Informational                              2 March 2026
-Expires: 3 September 2026
+Intended status: Informational                             20 March 2026
+Expires: 21 September 2026
 
 
       Ways to convey the Ratchet Tree in Messaging Layer Security
-               draft-mahy-mls-ratchet-tree-options-latest
+               draft-ietf-mls-ratchet-tree-options-latest
 
 Abstract
 
@@ -26,17 +26,19 @@ About This Document
 
    This note is to be removed before publishing as an RFC.
 
-   Status information for this document may be found at
-   https://datatracker.ietf.org/doc/draft-mahy-mls-ratchet-tree-
-   options/.
+   The latest revision of this draft can be found at
+   https://messaginglayersecurity.rocks/mls-ratchet-tree-options/draft-
+   ietf-mls-ratchet-tree-options.html.  Status information for this
+   document may be found at https://datatracker.ietf.org/doc/draft-ietf-
+   mls-ratchet-tree-options/.
 
-   Discussion of this document takes place on the MLS Working Group
-   mailing list (mailto:mls@ietf.org), which is archived at
-   https://mailarchive.ietf.org/arch/browse/mls/.  Subscribe at
-   https://www.ietf.org/mailman/listinfo/mls/.
+   Discussion of this document takes place on the Messaging Layer
+   Security Working Group mailing list (mailto:mls@ietf.org), which is
+   archived at https://mailarchive.ietf.org/arch/browse/mls/.  Subscribe
+   at https://www.ietf.org/mailman/listinfo/mls/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/rohanmahy/mls-ratchet-tree-options/.
+   https://github.com/mlswg/mls-ratchet-tree-options.
 
 Status of This Memo
 
@@ -53,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 September 2026.
+   This Internet-Draft will expire on 21 September 2026.
 
 Copyright Notice
 
@@ -83,9 +85,11 @@ Table of Contents
      7.1.  Normative References
      7.2.  Informative References
    Appendix A.  Change Log
-     A.1.  Changes between -02 and -03
-     A.2.  Changes between -01 and -02
-     A.3.  Changes between -00 and -01
+     A.1.  Changes between draft-mahy-...-04 and draft-ietf-...-00
+     A.2.  Changes between -03 and -04
+     A.3.  Changes between -02 and -03
+     A.4.  Changes between -01 and -02
+     A.5.  Changes between -00 and -01
    Acknowledgments
    Author's Address
 
@@ -331,9 +335,9 @@ Table of Contents
    [I-D.ietf-mls-pq-ciphersuites]
               Mahy, R. and R. Barnes, "ML-KEM and Hybrid Cipher Suites
               for Messaging Layer Security", Work in Progress, Internet-
-              Draft, draft-ietf-mls-pq-ciphersuites-02, 2 March 2026,
+              Draft, draft-ietf-mls-pq-ciphersuites-04, 18 March 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-mls-pq-
-              ciphersuites-02>.
+              ciphersuites-04>.
 
    [I-D.mahy-mls-semiprivatemessage]
               Mahy, R., "Semi-Private Messages in the Messaging Layer
@@ -351,17 +355,25 @@ Table of Contents
 
 Appendix A.  Change Log
 
-A.1.  Changes between -02 and -03
+A.1.  Changes between draft-mahy-...-04 and draft-ietf-...-00
+
+   *  No changes except for renaming the draft
+
+A.2.  Changes between -03 and -04
 
    *  Added Security Considerations
 
    *  Removed unneeded tree_signature
 
-A.2.  Changes between -01 and -02
+A.3.  Changes between -02 and -03
+
+   *  No changes except for the publication dates
+
+A.4.  Changes between -01 and -02
 
    *  Added ratchet_tree_source_domains extension
 
-A.3.  Changes between -00 and -01
+A.5.  Changes between -00 and -01
 
    *  Removed ratchet tree patch options and notation.
 
