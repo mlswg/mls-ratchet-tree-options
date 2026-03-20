@@ -1,11 +1,11 @@
 ---
 title: Ways to convey the Ratchet Tree in Messaging Layer Security
 abbrev: Ratchet tree options in MLS
-docname: draft-mahy-mls-ratchet-tree-options-latest
+docname: draft-ietf-mls-ratchet-tree-options-latest
 ipr: trust200902
 submissiontype: IETF  # also: "independent", "IAB", or "IRTF"
-workgroup: MLS
-area: sec
+workgroup: "Messaging Layer Security"
+area: "Security"
 category: info
 keyword:
  - ratchet_tree
@@ -16,12 +16,12 @@ stand_alone: yes
 pi: [toc, sortrefs, symrefs]
 
 venue:
-  group: MLS
-  type: Working Group
-  mail: mls@ietf.org
-  arch: https://mailarchive.ietf.org/arch/browse/mls/
-  github: rohanmahy/mls-ratchet-tree-options/
-#  latest: https://github.com/rohanmahy/mls-ratchet-tree-options/latest
+  group: "Messaging Layer Security"
+  type: "Working Group"
+  mail: "mls@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/browse/mls/"
+  github: "mlswg/mls-ratchet-tree-options"
+  latest: "https://mlswg.github.io/mls-ratchet-tree-options/draft-ietf-mls-ratchet-tree-options.html"
 
 author:
  -  ins: R. Mahy
