@@ -21,7 +21,7 @@ venue:
   mail: "mls@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/mls/"
   github: "mlswg/mls-ratchet-tree-options"
-  latest: "https://mlswg.github.io/mls-ratchet-tree-options/draft-ietf-mls-ratchet-tree-options.html"
+  latest: "https://messaginglayersecurity.rocks/mls-ratchet-tree-options/draft-ietf-mls-ratchet-tree-options.html"
 
 author:
  -  ins: R. Mahy
