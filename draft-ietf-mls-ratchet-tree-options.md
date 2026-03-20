@@ -226,10 +226,18 @@ This document registers the `ratchet_tree_source_domains` Extension Type, using 
 
 # Change Log
 
-## Changes between -02 and -03
+## Changes between draft-mahy-...-04 and draft-ietf-...-00
+
+- No changes except for renaming the draft
+
+## Changes between -03 and -04
 
 - Added Security Considerations
 - Removed unneeded tree_signature
+
+## Changes between -02 and -03
+
+- No changes except for the publication dates
 
 ## Changes between -01 and -02
 
