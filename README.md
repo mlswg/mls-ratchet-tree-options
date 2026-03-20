@@ -1,13 +1,13 @@
-<!-- regenerate: on (set to off if you edit this file) -->
+<!-- regenerate: off (set to off if you edit this file) -->
 
 # Ways to convey the Ratchet Tree in Messaging Layer Security
 
 This is the working area for the IETF [MLS Working Group](https://datatracker.ietf.org/group/mls/documents/) Internet-Draft, "Ways to convey the Ratchet Tree in Messaging Layer Security".
 
-* [Editor's Copy](https://mlswg.github.io/mls-ratchet-tree-options/#go.draft-ietf-mls-ratchet-tree-options.html)
+* [Editor's Copy](https://messaginglayersecurity.rocks//mls-ratchet-tree-options/#go.draft-ietf-mls-ratchet-tree-options.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-mls-ratchet-tree-options)
 * [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-mls-ratchet-tree-options)
-* [Compare Editor's Copy to Working Group Draft](https://mlswg.github.io/mls-ratchet-tree-options/#go.draft-ietf-mls-ratchet-tree-options.diff)
+* [Compare Editor's Copy to Working Group Draft](https://messaginglayersecurity.rocks/mls-ratchet-tree-options/#go.draft-ietf-mls-ratchet-tree-options.diff)
 
 
 ## Contributing
