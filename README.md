@@ -1,21 +1,22 @@
+<!-- regenerate: on (set to off if you edit this file) -->
+
 # Ways to convey the Ratchet Tree in Messaging Layer Security
 
-This is the working area for the individual Internet-Draft, "Ways to convey the Ratchet Tree in Messaging Layer Security".
+This is the working area for the IETF [MLS Working Group](https://datatracker.ietf.org/group/mls/documents/) Internet-Draft, "Ways to convey the Ratchet Tree in Messaging Layer Security".
 
-* [Editor's Copy](https://rohanmahy.github.io/mls-ratchet-tree-options/#go.draft-mahy-mls-ratchet-tree-options.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-mahy-mls-ratchet-tree-options)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-mahy-mls-ratchet-tree-options)
-* [Compare Editor's Copy to Individual Draft](https://rohanmahy.github.io/mls-ratchet-tree-options/#go.draft-mahy-mls-ratchet-tree-options.diff)
+* [Editor's Copy](https://mlswg.github.io/mls-ratchet-tree-options/#go.draft-ietf-mls-ratchet-tree-options.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-mls-ratchet-tree-options)
+* [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-mls-ratchet-tree-options)
+* [Compare Editor's Copy to Working Group Draft](https://mlswg.github.io/mls-ratchet-tree-options/#go.draft-ietf-mls-ratchet-tree-options.diff)
 
 
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/rohanmahy/mls-ratchet-tree-options/blob/main/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/mlswg/mls-ratchet-tree-options/blob/main/CONTRIBUTING.md).
 
-Contributions can be made by creating pull requests.
-The GitHub interface supports creating pull requests using the Edit (✏) button.
-
+The contributing file also has tips on how to make contributions, if you
+don't already know how to do that.
 
 ## Command Line Usage
 
