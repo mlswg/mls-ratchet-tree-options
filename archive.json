@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-26T01:27:57.899939+00:00",
+  "timestamp": "2026-03-29T01:44:20.413001+00:00",
   "repo": "mlswg/mls-ratchet-tree-options",
   "labels": [
     {
@@ -49,6 +49,23 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDOLhXx3s74AtlF",
+      "title": "Add explanation about ratchet tree domain to Security Considerations",
+      "url": "https://github.com/mlswg/mls-ratchet-tree-options/issues/1",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Add explanation about ratchet tree domain to Security Considerations. \n\n- it prevents client from leaking private information to a malicious domain. ",
+      "createdAt": "2026-03-28T17:17:51Z",
+      "updatedAt": "2026-03-28T17:17:51Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": []
 }
