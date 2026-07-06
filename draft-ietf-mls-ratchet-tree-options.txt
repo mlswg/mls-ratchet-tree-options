@@ -4,8 +4,8 @@
 
 Messaging Layer Security                                         R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
-Intended status: Informational                             20 March 2026
-Expires: 21 September 2026
+Intended status: Informational                               6 July 2026
+Expires: 7 January 2027
 
 
       Ways to convey the Ratchet Tree in Messaging Layer Security
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 September 2026.
+   This Internet-Draft will expire on 7 January 2027.
 
 Copyright Notice
 
@@ -85,11 +85,12 @@ Table of Contents
      7.1.  Normative References
      7.2.  Informative References
    Appendix A.  Change Log
-     A.1.  Changes between draft-mahy-...-04 and draft-ietf-...-00
-     A.2.  Changes between -03 and -04
-     A.3.  Changes between -02 and -03
-     A.4.  Changes between -01 and -02
-     A.5.  Changes between -00 and -01
+     A.1.  Changes between ietf-...-00 and -01
+     A.2.  Changes between draft-mahy-...-04 and draft-ietf-...-00
+     A.3.  Changes between -03 and -04
+     A.4.  Changes between -02 and -03
+     A.5.  Changes between -01 and -02
+     A.6.  Changes between -00 and -01
    Acknowledgments
    Author's Address
 
@@ -270,10 +271,18 @@ Table of Contents
    the DS receives a GroupInfo with each tentative commit message.  The
    DS cannot verify the correctness of a GroupInfo because it does not
    have the GroupInfo.extensions.  This is no different with a partial
-   GroupInfo message.  In both partial and full GroupInfo presentation,
+   GroupInfo message.  In both partial and full GroupInfo presentations,
    given a specific GroupInfo.signature, the DS can merely verify that
    the extensions and the signature are consistent with each other and
    with the GroupContext.
+
+   When the ratchet_tree_source_domains is set, the client will only
+   download the ratchet tree from one of the domains in that list.  This
+   prevents an intermediate protocol from providing an unauthorized
+   domain to clients fetching the ratchet tree over HTTPS.  A malicious
+   server could otherwise give the domain of a proxy, so that it could
+   infer when clients are joining various groups, or build a social
+   graph of users in the same group.
 
 6.  IANA Considerations
 
@@ -328,23 +337,23 @@ Table of Contents
               Barnes, R., Hodgson, M., Kohbrok, K., Mahy, R., Ralston,
               T., and R. Robert, "More Instant Messaging
               Interoperability (MIMI) using HTTPS and MLS", Work in
-              Progress, Internet-Draft, draft-ietf-mimi-protocol-05, 20
-              October 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-mimi-protocol-05>.
+              Progress, Internet-Draft, draft-ietf-mimi-protocol-06, 25
+              April 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-mimi-protocol-06>.
 
    [I-D.ietf-mls-pq-ciphersuites]
               Mahy, R. and R. Barnes, "ML-KEM and Hybrid Cipher Suites
               for Messaging Layer Security", Work in Progress, Internet-
-              Draft, draft-ietf-mls-pq-ciphersuites-04, 18 March 2026,
+              Draft, draft-ietf-mls-pq-ciphersuites-05, 2 July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-mls-pq-
-              ciphersuites-04>.
+              ciphersuites-05>.
 
    [I-D.mahy-mls-semiprivatemessage]
               Mahy, R., "Semi-Private Messages in the Messaging Layer
               Security (MLS) Protocol", Work in Progress, Internet-
-              Draft, draft-mahy-mls-semiprivatemessage-06, 16 October
-              2025, <https://datatracker.ietf.org/doc/html/draft-mahy-
-              mls-semiprivatemessage-06>.
+              Draft, draft-mahy-mls-semiprivatemessage-07, 19 April
+              2026, <https://datatracker.ietf.org/doc/html/draft-mahy-
+              mls-semiprivatemessage-07>.
 
    [I-D.robert-mimi-delivery-service]
               Robert, R. and K. Kohbrok, "MIMI Delivery Service", Work
@@ -355,25 +364,30 @@ Table of Contents
 
 Appendix A.  Change Log
 
-A.1.  Changes between draft-mahy-...-04 and draft-ietf-...-00
+A.1.  Changes between ietf-...-00 and -01
+
+   *  Added note in Security Considerations with motivation for
+      ratchet_tree_source_domain extension.
+
+A.2.  Changes between draft-mahy-...-04 and draft-ietf-...-00
 
    *  No changes except for renaming the draft
 
-A.2.  Changes between -03 and -04
+A.3.  Changes between -03 and -04
 
    *  Added Security Considerations
 
    *  Removed unneeded tree_signature
 
-A.3.  Changes between -02 and -03
+A.4.  Changes between -02 and -03
 
    *  No changes except for the publication dates
 
-A.4.  Changes between -01 and -02
+A.5.  Changes between -01 and -02
 
    *  Added ratchet_tree_source_domains extension
 
-A.5.  Changes between -00 and -01
+A.6.  Changes between -00 and -01
 
    *  Removed ratchet tree patch options and notation.
 
