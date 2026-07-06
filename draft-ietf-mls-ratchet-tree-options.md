@@ -206,7 +206,11 @@ The tree hash allows the receiver to verify that the ratchet tree is valid wheth
 In some systems such as the MIMI protocol {{?I-D.ietf-mimi-protocol}}, the DS receives a GroupInfo with each tentative commit message.
 The DS cannot verify the correctness of a GroupInfo because it does not have the `GroupInfo.extensions`.
 This is no different with a partial GroupInfo message.
-In both partial and full GroupInfo presentation, given a specific `GroupInfo.signature`, the DS can merely verify that the extensions and the signature are consistent with each other and with the GroupContext.
+In both partial and full GroupInfo presentations, given a specific `GroupInfo.signature`, the DS can merely verify that the extensions and the signature are consistent with each other and with the GroupContext.
+
+When the `ratchet_tree_source_domains` is set, the client will only download the ratchet tree from one of the domains in that list.
+This prevents an intermediate protocol from providing an unauthorized domain to clients fetching the ratchet tree over HTTPS.
+A malicious server could otherwise give the domain of a proxy, so that it could infer when clients are joining various groups, or build a social graph of users in the same group.
 
 
 # IANA Considerations
@@ -225,6 +229,10 @@ This document registers the `ratchet_tree_source_domains` Extension Type, using 
 --- back
 
 # Change Log
+
+## Changes between ietf-...-00 and -01
+
+- Added note in Security Considerations with motivation for `ratchet_tree_source_domain` extension.
 
 ## Changes between draft-mahy-...-04 and draft-ietf-...-00
 
