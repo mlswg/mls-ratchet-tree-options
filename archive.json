@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-30T01:42:29.785226+00:00",
+  "timestamp": "2026-08-02T01:57:17.380730+00:00",
   "repo": "mlswg/mls-ratchet-tree-options",
   "labels": [
     {
@@ -73,6 +73,22 @@
           "updatedAt": "2026-07-06T19:44:49Z"
         }
       ]
+    },
+    {
+      "number": 2,
+      "id": "I_kwDOLhXx3s8AAAABK89Fsg",
+      "title": "Register new Wire Format for PartialGroupInfo",
+      "url": "https://github.com/mlswg/mls-ratchet-tree-options/issues/2",
+      "state": "OPEN",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "register a new Wire Format for ParitalGroupInfo  ( `partial_group_info` with suggested value 0x0008), so it can be referenced by Amortized PQ combiner in [this issue](https://github.com/mlswg/mls-combiner/issues/25).\n",
+      "createdAt": "2026-07-31T13:24:28Z",
+      "updatedAt": "2026-07-31T13:24:28Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": []
