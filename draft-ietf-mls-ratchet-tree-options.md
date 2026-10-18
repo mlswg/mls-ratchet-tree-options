@@ -95,8 +95,8 @@ struct {
   RatchetTreeRepresentation representation;
   select (representation) {
     case full:
-      Node ratchet_tree<V>;
-    case httpsUrl:
+      optional<Node> ratchet_tree<V>;
+    case httpsUri:
       /* an HTTPS URL */
       opaque ratchet_tree_url<V>;
     case outOfBand:
@@ -190,7 +190,7 @@ The value of `ratchet_tree_presence` is defined as follows:
 The `group_info_extensions` object is the list of GroupInfo
 extensions, omitting any `ratchet_tree` extension (if present). The only
 other GroupInfo extension defined in the base protocol is `external_pub`,
-the public key of the external commiter. The `group_info_extensions` is
+the group's public key for external joiners. The `group_info_extensions` is
 often an empty list.
 
 The `signature` in the PartialGroupInfo is the signature produced by the
