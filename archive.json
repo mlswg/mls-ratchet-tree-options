@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-18T02:18:36.477895+00:00",
+  "timestamp": "2026-10-20T02:46:20.207877+00:00",
   "repo": "mlswg/mls-ratchet-tree-options",
   "labels": [
     {
@@ -89,7 +89,50 @@
       "updatedAt": "2026-07-31T13:24:28Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOLhXx3s8AAAABYGrrIQ",
+      "title": "PartialGroupInfo: say how the signed GroupInfo is rebuilt",
+      "url": "https://github.com/mlswg/mls-ratchet-tree-options/issues/4",
+      "state": "OPEN",
+      "author": "MarkAtwood",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "\u00a74 says the hub can recreate most of the GroupInfo from the handshake messages, but leaves the details implicit, and the joiner has to rebuild exactly the bytes the committer signed. Three things would pin it down:\n\n1. A normative pointer: the GroupInfo is rebuilt per RFC 9420 \u00a712.4.3, from the post-commit GroupContext and the Commit's confirmation_tag.\n2. Where `ratchet_tree` goes in the rebuilt extension list. The signature covers the list in order, and implementations already differ for ordinary GroupInfos: OpenMLS puts ratchet_tree first, mls-rs appends it.\n3. What a receiver does if `group_info_extensions` contains a ratchet_tree anyway. The text only says the sender omits it. Suggest MUST reject.\n\nFound implementing -01 in mimid, which puts ratchet_tree first and rejects one that's present.\n",
+      "createdAt": "2026-10-18T18:12:56Z",
+      "updatedAt": "2026-10-18T18:12:56Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 3,
+      "id": "PR_kwDOLhXx3s8AAAABJMA-Vw",
+      "title": "Fix ratchet_tree type, httpsUrl typo and external_pub description",
+      "url": "https://github.com/mlswg/mls-ratchet-tree-options/pull/3",
+      "state": "OPEN",
+      "author": "MarkAtwood",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Three fixes from implementing -01 in mimid:\n\n- `case full:` declares `Node ratchet_tree<V>`, but the ratchet_tree extension in RFC 9420 \u00a712.4.3.3 is `optional<Node> ratchet_tree<V>`. A bare Node can't represent blank nodes, so most real trees can't be sent this way. Changed to `optional<Node>`. This changes the encoding, so happy to move it to an issue if you'd rather track it there.\n- The enum value is `httpsUri` but the select arm says `case httpsUrl:`.\n- `external_pub` is described as \"the public key of the external commiter\". In RFC 9420 it's the group's HPKE public key that external joiners encrypt to, not the joiner's. (Also \"commiter\".)\n",
+      "createdAt": "2026-10-18T18:12:40Z",
+      "updatedAt": "2026-10-18T18:12:41Z",
+      "baseRepository": "mlswg/mls-ratchet-tree-options",
+      "baseRefName": "main",
+      "baseRefOid": "5d39e069f4f137c9938aa183f08b5c80901187c0",
+      "headRepository": "MarkAtwood/mls-ratchet-tree-options",
+      "headRefName": "fix-ratchet-tree-type",
+      "headRefOid": "4fb83940dd94bc941502fa46c03f3342f36f6ebe",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
