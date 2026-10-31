@@ -4,8 +4,8 @@
 
 Messaging Layer Security                                         R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
-Intended status: Informational                               6 July 2026
-Expires: 7 January 2027
+Intended status: Informational                           31 October 2026
+Expires: 4 May 2027
 
 
       Ways to convey the Ratchet Tree in Messaging Layer Security
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 January 2027.
+   This Internet-Draft will expire on 4 May 2027.
 
 Copyright Notice
 
@@ -139,7 +139,7 @@ Table of Contents
    enum {
      reserved(0),
      full(1),
-     httpsUri(2),
+     httpsUrl(2),
      outOfBand(3),
      distributionService(4),
      (255)
@@ -149,7 +149,7 @@ Table of Contents
      RatchetTreeRepresentation representation;
      select (representation) {
        case full:
-         Node ratchet_tree<V>;
+         optional<Node> ratchet_tree<V>;
        case httpsUrl:
          /* an HTTPS URL */
          opaque ratchet_tree_url<V>;
@@ -164,7 +164,9 @@ Table of Contents
       included in the RatchetTreeOption object.
 
    *  httpsUri indicates that the ratchet_tree can be downloaded from a
-      URI using the https: scheme.
+
+   *  httpsUrl indicates that the ratchet_tree can be downloaded from a
+      URL using the https: scheme.
 
    *  outOfBand indicates that the ratchet_tree is communicated or
       reconstructed via an unspecified out-of-band application protocol.
@@ -250,8 +252,8 @@ Table of Contents
    The group_info_extensions object is the list of GroupInfo extensions,
    omitting any ratchet_tree extension (if present).  The only other
    GroupInfo extension defined in the base protocol is external_pub, the
-   public key of the external commiter.  The group_info_extensions is
-   often an empty list.
+   group's public key for external joiners whose private key is held by
+   the entire group.  The group_info_extensions is often an empty list.
 
    The signature in the PartialGroupInfo is the signature produced by
    the committer (represented by its leaf index in the GroupInfo as the
@@ -329,9 +331,9 @@ Table of Contents
    [I-D.ietf-mimi-arch]
               Barnes, R., "An Architecture for More Instant Messaging
               Interoperability (MIMI)", Work in Progress, Internet-
-              Draft, draft-ietf-mimi-arch-02, 20 October 2025,
+              Draft, draft-ietf-mimi-arch-03, 6 July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-mimi-
-              arch-02>.
+              arch-03>.
 
    [I-D.ietf-mimi-protocol]
               Barnes, R., Hodgson, M., Kohbrok, K., Mahy, R., Ralston,
@@ -344,9 +346,9 @@ Table of Contents
    [I-D.ietf-mls-pq-ciphersuites]
               Mahy, R. and R. Barnes, "ML-KEM and Hybrid Cipher Suites
               for Messaging Layer Security", Work in Progress, Internet-
-              Draft, draft-ietf-mls-pq-ciphersuites-05, 2 July 2026,
+              Draft, draft-ietf-mls-pq-ciphersuites-06, 21 July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-mls-pq-
-              ciphersuites-05>.
+              ciphersuites-06>.
 
    [I-D.mahy-mls-semiprivatemessage]
               Mahy, R., "Semi-Private Messages in the Messaging Layer
