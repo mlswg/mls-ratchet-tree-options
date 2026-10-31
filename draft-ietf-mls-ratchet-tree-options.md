@@ -85,7 +85,7 @@ signaled that it is communicated out-of-band or reconstructed by the distributio
 enum {
   reserved(0),
   full(1),
-  httpsUri(2),
+  httpsUrl(2),
   outOfBand(3),
   distributionService(4),
   (255)
@@ -95,7 +95,7 @@ struct {
   RatchetTreeRepresentation representation;
   select (representation) {
     case full:
-      Node ratchet_tree<V>;
+      optional<Node> ratchet_tree<V>;
     case httpsUrl:
       /* an HTTPS URL */
       opaque ratchet_tree_url<V>;
@@ -110,7 +110,8 @@ struct {
 - `full` indicates that the complete `ratchet_tree` extension is included in
 the RatchetTreeOption object.
 - `httpsUri` indicates that the `ratchet_tree` can be downloaded from a
-URI using the `https:` scheme.
+- `httpsUrl` indicates that the `ratchet_tree` can be downloaded from a
+URL using the `https:` scheme.
 - `outOfBand` indicates that the `ratchet_tree` is communicated or
 reconstructed via an unspecified out-of-band application protocol.
 - `distributionService` indicates that the `ratchet_tree` is reconstructed
@@ -190,8 +191,8 @@ The value of `ratchet_tree_presence` is defined as follows:
 The `group_info_extensions` object is the list of GroupInfo
 extensions, omitting any `ratchet_tree` extension (if present). The only
 other GroupInfo extension defined in the base protocol is `external_pub`,
-the public key of the external commiter. The `group_info_extensions` is
-often an empty list.
+the group's public key for external joiners whose private key is held by the
+entire group. The `group_info_extensions` is often an empty list.
 
 The `signature` in the PartialGroupInfo is the signature produced by the
 committer (represented by its leaf index in the GroupInfo as the `signer`).
