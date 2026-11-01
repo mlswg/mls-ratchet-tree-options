@@ -1418,9 +1418,16 @@ but there was none in the previous epoch.<a href="#section-4-5.4.1" class="pilcr
 extensions, omitting any <code>ratchet_tree</code> extension (if present). The only
 other GroupInfo extension defined in the base protocol is <code>external_pub</code>,
 the group's public key for external joiners whose private key is held by the
-entire group. The <code>group_info_extensions</code> is often an empty list.<a href="#section-4-6" class="pilcrow">¶</a></p>
+entire group. The <code>group_info_extensions</code> is often an empty list. If a
+PartialGroupInfo is received with a <code>ratchet_tree</code> extension, the entire message
+is rejected.<a href="#section-4-6" class="pilcrow">¶</a></p>
 <p id="section-4-7">The <code>signature</code> in the PartialGroupInfo is the signature produced by the
-committer (represented by its leaf index in the GroupInfo as the <code>signer</code>).<a href="#section-4-7" class="pilcrow">¶</a></p>
+committer (represented by its leaf index in the GroupInfo as the <code>signer</code>), as
+described in <span><a href="https://rfc-editor.org/rfc/rfc9420#section-12.4.3" class="relref">Section 12.4.3</a> of [<a href="#RFC9420" class="cite xref">RFC9420</a>]</span>. The <code>signature</code> only covers
+GroupInfo extensions that are actually included in the full GroupInfo.
+For implementations that support PartialGroupInfo, if the <code>ratchet_tree</code>
+extension in ever present in the signed GroupInfo, it <span class="bcp14">MUST</span> be the last element
+in the extension list.<a href="#section-4-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">
