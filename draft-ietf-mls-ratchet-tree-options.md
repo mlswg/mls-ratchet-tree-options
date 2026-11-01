@@ -216,11 +216,25 @@ A malicious server could otherwise give the domain of a proxy, so that it could 
 
 # IANA Considerations
 
+This document requests the addition of new values under the heading of "Messaging Layer Security".
+Each registration is organized under the relevant registry Type.
+
+RFC EDITOR: Please replace XXXX throughout with the RFC number assigned to this document.
+
+## mls_partial_group_info MLS Wire Format
+
+This document registers the `mls_partial_group_info` MLS Wire Format, using the template below:
+
+- Value: 0x0010 (suggested)
+- Name: mls_partial_group_info
+- Recommended: Y
+- Reference: RFC XXXX
+
 ## ratchet_tree_source_domains MLS Extension Type
 
-This document registers the `ratchet_tree_source_domains` Extension Type, using the template below:
+This document registers the `ratchet_tree_source_domains` MLS Extension Type, using the template below:
 
-- Value: TBD1 (new assignment by IANA)
+- Value: 0x000A (suggested)
 - Name: ratchet_tree_source_domains
 - Messages: GC
 - Recommended: Y
@@ -230,6 +244,11 @@ This document registers the `ratchet_tree_source_domains` Extension Type, using 
 --- back
 
 # Change Log
+
+## Changes between ietf-...-01 and -02
+
+- Added an IANA Wire Format registration (#2)
+- Added a suggested value for the `ratchet_tree_source-domains` extension
 
 ## Changes between ietf-...-00 and -01
 
