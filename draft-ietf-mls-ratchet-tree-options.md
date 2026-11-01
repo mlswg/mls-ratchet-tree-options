@@ -201,7 +201,7 @@ committer (represented by its leaf index in the GroupInfo as the `signer`), as
 described in {{Section 12.4.3 of !RFC9420}}. The `signature` only covers
 GroupInfo extensions that are actually included in the full GroupInfo.
 For implementations that support PartialGroupInfo, if the `ratchet_tree`
-extension in ever present in the signed GroupInfo, it MUST be the last element
+extension is ever present in the signed GroupInfo, it MUST be the last element
 in the extension list.
 
 # Security Considerations
