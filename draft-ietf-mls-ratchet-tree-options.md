@@ -254,6 +254,7 @@ This document registers the `ratchet_tree_source_domains` MLS Extension Type, us
 
 ## Changes between ietf-...-01 and -02
 
+- Clarify how to build the PartialGroupInfo signature when the original GroupInfo included the ratchet_tree extension
 - Added an IANA Wire Format registration (#2)
 - Added a suggested value for the `ratchet_tree_source-domains` extension
 
