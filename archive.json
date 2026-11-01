@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-20T02:46:20.207877+00:00",
+  "timestamp": "2026-11-01T03:29:47.648771+00:00",
   "repo": "mlswg/mls-ratchet-tree-options",
   "labels": [
     {
@@ -47,6 +47,11 @@
       "name": "wontfix",
       "description": "This will not be worked on",
       "color": "ffffff"
+    },
+    {
+      "name": "needs-discussion",
+      "description": "",
+      "color": "e270fe"
     }
   ],
   "issues": [
@@ -97,14 +102,31 @@
       "url": "https://github.com/mlswg/mls-ratchet-tree-options/issues/4",
       "state": "OPEN",
       "author": "MarkAtwood",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "needs-discussion"
+      ],
       "body": "\u00a74 says the hub can recreate most of the GroupInfo from the handshake messages, but leaves the details implicit, and the joiner has to rebuild exactly the bytes the committer signed. Three things would pin it down:\n\n1. A normative pointer: the GroupInfo is rebuilt per RFC 9420 \u00a712.4.3, from the post-commit GroupContext and the Commit's confirmation_tag.\n2. Where `ratchet_tree` goes in the rebuilt extension list. The signature covers the list in order, and implementations already differ for ordinary GroupInfos: OpenMLS puts ratchet_tree first, mls-rs appends it.\n3. What a receiver does if `group_info_extensions` contains a ratchet_tree anyway. The text only says the sender omits it. Suggest MUST reject.\n\nFound implementing -01 in mimid, which puts ratchet_tree first and rejects one that's present.\n",
       "createdAt": "2026-10-18T18:12:56Z",
-      "updatedAt": "2026-10-18T18:12:56Z",
+      "updatedAt": "2026-10-31T21:18:42Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The signature has to be over the extensions that were actually present. If whichever client created the GroupInfo did not include the `ratchet_tree` extension, then it won't appear in the signature, so the signature will depend on the choices in `RatchetTreePresence`.\n\nI would recommend that the GroupInfo.extensions appear in ascending numerical order of the extension IDs. We have that for Components, but not for extensions. It is a bit of a backwards compatibility issue.\n\n",
+          "createdAt": "2026-10-31T10:21:01Z",
+          "updatedAt": "2026-10-31T10:21:01Z"
+        },
+        {
+          "author": "MarkAtwood",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Ascending order works for me. On back compat, could we scope the rule to the GroupInfo rebuilt from a PartialGroupInfo? That's new in this draft, so nothing existing has to change, and the committer just has to sign in that order when it intends the hub to send a partial one.\n\nStill worth a line for the other two: point at 9420 \u00a712.4.3 for the rebuild, and say what a receiver does if group_info_extensions has a ratchet_tree in it anyway (I'd reject).\n",
+          "createdAt": "2026-10-31T21:18:42Z",
+          "updatedAt": "2026-10-31T21:18:42Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -113,26 +135,162 @@
       "id": "PR_kwDOLhXx3s8AAAABJMA-Vw",
       "title": "Fix ratchet_tree type, httpsUrl typo and external_pub description",
       "url": "https://github.com/mlswg/mls-ratchet-tree-options/pull/3",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "MarkAtwood",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Three fixes from implementing -01 in mimid:\n\n- `case full:` declares `Node ratchet_tree<V>`, but the ratchet_tree extension in RFC 9420 \u00a712.4.3.3 is `optional<Node> ratchet_tree<V>`. A bare Node can't represent blank nodes, so most real trees can't be sent this way. Changed to `optional<Node>`. This changes the encoding, so happy to move it to an issue if you'd rather track it there.\n- The enum value is `httpsUri` but the select arm says `case httpsUrl:`.\n- `external_pub` is described as \"the public key of the external commiter\". In RFC 9420 it's the group's HPKE public key that external joiners encrypt to, not the joiner's. (Also \"commiter\".)\n",
       "createdAt": "2026-10-18T18:12:40Z",
-      "updatedAt": "2026-10-18T18:12:41Z",
+      "updatedAt": "2026-10-31T09:54:28Z",
       "baseRepository": "mlswg/mls-ratchet-tree-options",
       "baseRefName": "main",
       "baseRefOid": "5d39e069f4f137c9938aa183f08b5c80901187c0",
       "headRepository": "MarkAtwood/mls-ratchet-tree-options",
       "headRefName": "fix-ratchet-tree-type",
-      "headRefOid": "4fb83940dd94bc941502fa46c03f3342f36f6ebe",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "aee49f906fecbc78db50769bf1cdc73ae73e0397",
+      "closedAt": "2026-10-31T09:54:28Z",
+      "mergedAt": "2026-10-31T09:54:28Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "b95d1d77ad20ac3e032e64849d4700193cefe342"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLhXx3s8AAAABVRFztw",
+          "commit": {
+            "abbreviatedOid": "4fb8394"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-31T09:29:34Z",
+          "updatedAt": "2026-10-31T09:29:34Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "I see. Each item in the Vec is an optional<Node>.  Wow, we could have saved an extraneous byte and an extra layer of encoding if we had just made NodeType 0 = `blank`.",
+              "createdAt": "2026-10-31T09:29:34Z",
+              "updatedAt": "2026-10-31T09:49:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLhXx3s8AAAABVRF5OQ",
+          "commit": {
+            "abbreviatedOid": "4fb8394"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-31T09:29:59Z",
+          "updatedAt": "2026-10-31T09:29:59Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "I think I would rather change the enum definition to `httpsUrl`",
+              "createdAt": "2026-10-31T09:29:59Z",
+              "updatedAt": "2026-10-31T09:29:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLhXx3s8AAAABVRILtw",
+          "commit": {
+            "abbreviatedOid": "4fb8394"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-31T09:41:27Z",
+          "updatedAt": "2026-10-31T09:41:28Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "```suggestion\nthe group's public key for external joiners whose private key is held by the\nentire group. The `group_info_extensions` is often an empty list.\n```",
+              "createdAt": "2026-10-31T09:41:28Z",
+              "updatedAt": "2026-10-31T09:41:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLhXx3s8AAAABVRIctw",
+          "commit": {
+            "abbreviatedOid": "4fb8394"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-31T09:43:19Z",
+          "updatedAt": "2026-10-31T09:43:19Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "```suggestion\n  httpsUrl(2),\n```",
+              "createdAt": "2026-10-31T09:43:19Z",
+              "updatedAt": "2026-10-31T09:43:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLhXx3s8AAAABVRIg-w",
+          "commit": {
+            "abbreviatedOid": "4fb8394"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-31T09:43:41Z",
+          "updatedAt": "2026-10-31T09:43:41Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "```suggestion\n- `httpsUrl` indicates that the `ratchet_tree` can be downloaded from a\nURL using the `https:` scheme.\n```",
+              "createdAt": "2026-10-31T09:43:41Z",
+              "updatedAt": "2026-10-31T09:43:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLhXx3s8AAAABVRKAFw",
+          "commit": {
+            "abbreviatedOid": "ce5e05e"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-31T09:52:16Z",
+          "updatedAt": "2026-10-31T09:52:17Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\n    case httpsUrl:\n```",
+              "createdAt": "2026-10-31T09:52:17Z",
+              "updatedAt": "2026-10-31T09:52:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOLhXx3s8AAAABVRKYvg",
+          "commit": {
+            "abbreviatedOid": "aee49f9"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-10-31T09:53:18Z",
+          "updatedAt": "2026-10-31T09:53:18Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
