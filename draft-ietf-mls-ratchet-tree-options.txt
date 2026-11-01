@@ -4,8 +4,8 @@
 
 Messaging Layer Security                                         R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
-Intended status: Informational                           31 October 2026
-Expires: 4 May 2027
+Intended status: Informational                           1 November 2026
+Expires: 5 May 2027
 
 
       Ways to convey the Ratchet Tree in Messaging Layer Security
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 May 2027.
+   This Internet-Draft will expire on 5 May 2027.
 
 Copyright Notice
 
@@ -80,17 +80,19 @@ Table of Contents
    4.  Conveying the GroupInfo
    5.  Security Considerations
    6.  IANA Considerations
-     6.1.  ratchet_tree_source_domains MLS Extension Type
+     6.1.  mls_partial_group_info MLS Wire Format
+     6.2.  ratchet_tree_source_domains MLS Extension Type
    7.  References
      7.1.  Normative References
      7.2.  Informative References
    Appendix A.  Change Log
-     A.1.  Changes between ietf-...-00 and -01
-     A.2.  Changes between draft-mahy-...-04 and draft-ietf-...-00
-     A.3.  Changes between -03 and -04
-     A.4.  Changes between -02 and -03
-     A.5.  Changes between -01 and -02
-     A.6.  Changes between -00 and -01
+     A.1.  Changes between ietf-...-01 and -02
+     A.2.  Changes between ietf-...-00 and -01
+     A.3.  Changes between draft-mahy-...-04 and draft-ietf-...-00
+     A.4.  Changes between -03 and -04
+     A.5.  Changes between -02 and -03
+     A.6.  Changes between -01 and -02
+     A.7.  Changes between -00 and -01
    Acknowledgments
    Author's Address
 
@@ -288,12 +290,32 @@ Table of Contents
 
 6.  IANA Considerations
 
-6.1.  ratchet_tree_source_domains MLS Extension Type
+   This document requests the addition of new values under the heading
+   of "Messaging Layer Security".  Each registration is organized under
+   the relevant registry Type.
 
-   This document registers the ratchet_tree_source_domains Extension
+   RFC EDITOR: Please replace XXXX throughout with the RFC number
+   assigned to this document.
+
+6.1.  mls_partial_group_info MLS Wire Format
+
+   This document registers the mls_partial_group_info MLS Wire Format,
+   using the template below:
+
+   *  Value: 0x0010 (suggested)
+
+   *  Name: mls_partial_group_info
+
+   *  Recommended: Y
+
+   *  Reference: RFC XXXX
+
+6.2.  ratchet_tree_source_domains MLS Extension Type
+
+   This document registers the ratchet_tree_source_domains MLS Extension
    Type, using the template below:
 
-   *  Value: TBD1 (new assignment by IANA)
+   *  Value: 0x000A (suggested)
 
    *  Name: ratchet_tree_source_domains
 
@@ -366,30 +388,37 @@ Table of Contents
 
 Appendix A.  Change Log
 
-A.1.  Changes between ietf-...-00 and -01
+A.1.  Changes between ietf-...-01 and -02
+
+   *  Added an IANA Wire Format registration (#2)
+
+   *  Added a suggested value for the ratchet_tree_source-domains
+      extension
+
+A.2.  Changes between ietf-...-00 and -01
 
    *  Added note in Security Considerations with motivation for
       ratchet_tree_source_domain extension.
 
-A.2.  Changes between draft-mahy-...-04 and draft-ietf-...-00
+A.3.  Changes between draft-mahy-...-04 and draft-ietf-...-00
 
    *  No changes except for renaming the draft
 
-A.3.  Changes between -03 and -04
+A.4.  Changes between -03 and -04
 
    *  Added Security Considerations
 
    *  Removed unneeded tree_signature
 
-A.4.  Changes between -02 and -03
+A.5.  Changes between -02 and -03
 
    *  No changes except for the publication dates
 
-A.5.  Changes between -01 and -02
+A.6.  Changes between -01 and -02
 
    *  Added ratchet_tree_source_domains extension
 
-A.6.  Changes between -00 and -01
+A.7.  Changes between -00 and -01
 
    *  Removed ratchet tree patch options and notation.
 
