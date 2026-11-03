@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-01T03:29:47.648771+00:00",
+  "timestamp": "2026-11-03T04:43:13.081332+00:00",
   "repo": "mlswg/mls-ratchet-tree-options",
   "labels": [
     {
@@ -84,23 +84,31 @@
       "id": "I_kwDOLhXx3s8AAAABK89Fsg",
       "title": "Register new Wire Format for PartialGroupInfo",
       "url": "https://github.com/mlswg/mls-ratchet-tree-options/issues/2",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rohanmahy",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "register a new Wire Format for ParitalGroupInfo  ( `partial_group_info` with suggested value 0x0008), so it can be referenced by Amortized PQ combiner in [this issue](https://github.com/mlswg/mls-combiner/issues/25).\n",
       "createdAt": "2026-07-31T13:24:28Z",
-      "updatedAt": "2026-07-31T13:24:28Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-11-01T12:42:08Z",
+      "closedAt": "2026-11-01T12:42:08Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed via #5 ",
+          "createdAt": "2026-11-01T12:42:08Z",
+          "updatedAt": "2026-11-01T12:42:08Z"
+        }
+      ]
     },
     {
       "number": 4,
       "id": "I_kwDOLhXx3s8AAAABYGrrIQ",
       "title": "PartialGroupInfo: say how the signed GroupInfo is rebuilt",
       "url": "https://github.com/mlswg/mls-ratchet-tree-options/issues/4",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "MarkAtwood",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
@@ -109,8 +117,8 @@
       ],
       "body": "\u00a74 says the hub can recreate most of the GroupInfo from the handshake messages, but leaves the details implicit, and the joiner has to rebuild exactly the bytes the committer signed. Three things would pin it down:\n\n1. A normative pointer: the GroupInfo is rebuilt per RFC 9420 \u00a712.4.3, from the post-commit GroupContext and the Commit's confirmation_tag.\n2. Where `ratchet_tree` goes in the rebuilt extension list. The signature covers the list in order, and implementations already differ for ordinary GroupInfos: OpenMLS puts ratchet_tree first, mls-rs appends it.\n3. What a receiver does if `group_info_extensions` contains a ratchet_tree anyway. The text only says the sender omits it. Suggest MUST reject.\n\nFound implementing -01 in mimid, which puts ratchet_tree first and rejects one that's present.\n",
       "createdAt": "2026-10-18T18:12:56Z",
-      "updatedAt": "2026-10-31T21:18:42Z",
-      "closedAt": null,
+      "updatedAt": "2026-11-01T12:41:37Z",
+      "closedAt": "2026-11-01T12:41:36Z",
       "comments": [
         {
           "author": "rohanmahy",
@@ -125,8 +133,63 @@
           "body": "Ascending order works for me. On back compat, could we scope the rule to the GroupInfo rebuilt from a PartialGroupInfo? That's new in this draft, so nothing existing has to change, and the committer just has to sign in that order when it intends the hub to send a partial one.\n\nStill worth a line for the other two: point at 9420 \u00a712.4.3 for the rebuild, and say what a receiver does if group_info_extensions has a ratchet_tree in it anyway (I'd reject).\n",
           "createdAt": "2026-10-31T21:18:42Z",
           "updatedAt": "2026-10-31T21:18:42Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "As I thought about implementation efficiency, I think having the `ratchet_tree` extension be last in the GroupInfo.extensions actually makes the most sense.",
+          "createdAt": "2026-11-01T12:37:47Z",
+          "updatedAt": "2026-11-01T12:37:47Z"
         }
       ]
+    },
+    {
+      "number": 7,
+      "id": "I_kwDOLhXx3s8AAAABb64Y3Q",
+      "title": "\u00a74: \"ratchet_tree MUST be last\" has to bind every committer; OpenMLS and mls-rs (GREASE) don't put it last",
+      "url": "https://github.com/mlswg/mls-ratchet-tree-options/issues/7",
+      "state": "OPEN",
+      "author": "MarkAtwood",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "-02 \u00a74 says: \"For implementations that support PartialGroupInfo, if the ratchet_tree extension is ever present in the signed GroupInfo, it MUST be the last element in the extension list.\"\n\nThe scope doesn't work. The committer signs the GroupInfo, but whether it later travels as a PartialGroupInfo is decided afterwards, by a hub or DS the committer may know nothing about. A receiver that rebuilds the full GroupInfo by appending ratchet_tree can verify the signature only if the committer put ratchet_tree last. So the rule has to bind every committer that includes ratchet_tree, whether or not it supports PartialGroupInfo, and RFC 9420 puts no order on GroupInfo extensions.\n\nCurrent implementations don't put it last:\n\n- OpenMLS (main, `commit_builder.rs`) adds ratchet_tree first, then the application's GroupInfo extensions, then external_pub. Any GroupInfo with ratchet_tree and external_pub has ratchet_tree first.\n- mls-rs puts ratchet_tree after external_pub, but with its `grease` feature it adds a GREASE extension at the end just before signing.\n\nA GroupInfo signed by either can't be sent as a PartialGroupInfo that verifies after reconstruction.\n\nEither of these fixes it:\n\n1. Require it of every committer: a GroupInfo that contains ratchet_tree MUST have it as the last extension, GREASE included. This needs existing implementations to change and a statement that it updates RFC 9420 behavior.\n2. Carry the position: add the index ratchet_tree had in the signed extension list to PartialGroupInfo, and reinsert it there when rebuilding. This works with GroupInfos that existing implementations already sign.\n\nFound implementing PartialGroupInfo reconstruction in mimid.\n",
+      "createdAt": "2026-11-02T18:35:10Z",
+      "updatedAt": "2026-11-02T18:35:10Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 9,
+      "id": "I_kwDOLhXx3s8AAAABb7Q9MQ",
+      "title": "\u00a76.1 registers mls_partial_group_info but no MLSMessage arm uses it",
+      "url": "https://github.com/mlswg/mls-ratchet-tree-options/issues/9",
+      "state": "OPEN",
+      "author": "MarkAtwood",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u00a76.1 (md L231-238) registers a wire format, `mls_partial_group_info` (0x0010 suggested), but the body never uses it. Nothing adds a `case mls_partial_group_info: PartialGroupInfo partial_group_info;` arm to the RFC 9420 \u00a76 `MLSMessage` `select (wire_format)`, nothing says when a PartialGroupInfo is sent MLSMessage-framed and when it travels bare next to a commit, and nothing says whether a member must list the new value in `supported_wire_formats` / `required_wire_formats` (draft-ietf-mls-extensions).\n\nAs written, one implementation can send a framed `MLSMessage{wire_format=0x0010}` while another sends bare `PartialGroupInfo` bytes, and a receiver can't tell which it got. A codepoint with no defined encoding also can't be checked against capabilities.\n\nSuggested fix: add the `MLSMessage` arm, state where PartialGroupInfo is MLSMessage-framed and where (if anywhere) it is carried bare, and say whether `mls_partial_group_info` must appear in `supported_wire_formats` before a committer sends one. If it is never framed, drop the registration.\n",
+      "createdAt": "2026-11-02T19:01:24Z",
+      "updatedAt": "2026-11-02T19:01:24Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOLhXx3s8AAAABb7Q-LQ",
+      "title": "\u00a74: PartialGroupInfo ratchet_tree rejection has no keyword and no scope",
+      "url": "https://github.com/mlswg/mls-ratchet-tree-options/issues/10",
+      "state": "OPEN",
+      "author": "MarkAtwood",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u00a74 (md L191-197): \"If a PartialGroupInfo is received with a `ratchet_tree` extension, the entire message is rejected.\"\n\nThere is no BCP 14 keyword, so this isn't a requirement on the receiver, and \"the entire message\" is undefined: the PartialGroupInfo alone, or the commit bundle / MIMI update that carries it. Rejecting the PartialGroupInfo but processing the commit leaves the hub unable to rebuild the GroupInfo; rejecting the whole bundle drops a valid commit. Two hubs that pick differently diverge on the same input.\n\nSuggested fix: \"A receiver MUST reject a PartialGroupInfo whose `group_info_extensions` contains a `ratchet_tree` extension\", and state what happens to the commit it accompanies, or defer that to the carrying protocol.\n",
+      "createdAt": "2026-11-02T19:01:25Z",
+      "updatedAt": "2026-11-02T19:01:25Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -291,6 +354,88 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOLhXx3s8AAAABMGmDfA",
+      "title": "Add wire format registration",
+      "url": "https://github.com/mlswg/mls-ratchet-tree-options/pull/5",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "also add suggested value for extension",
+      "createdAt": "2026-11-01T12:10:45Z",
+      "updatedAt": "2026-11-01T12:18:56Z",
+      "baseRepository": "mlswg/mls-ratchet-tree-options",
+      "baseRefName": "main",
+      "baseRefOid": "b95d1d77ad20ac3e032e64849d4700193cefe342",
+      "headRepository": "mlswg/mls-ratchet-tree-options",
+      "headRefName": "iana-wire-format",
+      "headRefOid": "f7d5c8d86794b62477a71cd48437966a44603e74",
+      "closedAt": "2026-11-01T12:18:55Z",
+      "mergedAt": "2026-11-01T12:18:55Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "a917669b88d5e9ad4a1b6ab1b8a6a99c59e12456"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOLhXx3s8AAAABMG0UtA",
+      "title": "be more explicit about order of GroupInfo.extensions that included a ratchet_tree",
+      "url": "https://github.com/mlswg/mls-ratchet-tree-options/pull/6",
+      "state": "MERGED",
+      "author": "rohanmahy",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #4 ",
+      "createdAt": "2026-11-01T12:40:48Z",
+      "updatedAt": "2026-11-01T12:41:35Z",
+      "baseRepository": "mlswg/mls-ratchet-tree-options",
+      "baseRefName": "main",
+      "baseRefOid": "a917669b88d5e9ad4a1b6ab1b8a6a99c59e12456",
+      "headRepository": "mlswg/mls-ratchet-tree-options",
+      "headRefName": "ordering",
+      "headRefOid": "06fd09a76f63bbd9bad696e285f5cecb3a92ad76",
+      "closedAt": "2026-11-01T12:41:35Z",
+      "mergedAt": "2026-11-01T12:41:35Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "f86bd5b9c546b59e26fdbacd7075e1b13a02a5dd"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDOLhXx3s8AAAABMYVxMg",
+      "title": "Remove stray httpsUri bullet; complete -02 log",
+      "url": "https://github.com/mlswg/mls-ratchet-tree-options/pull/8",
+      "state": "OPEN",
+      "author": "MarkAtwood",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u00a73 has a half-bullet (\"`httpsUri` indicates that the `ratchet_tree` can be downloaded from a\") left over when the #3 suggestions were applied, directly above the correct `httpsUrl` bullet. This deletes it.\n\nThe -02 change log also omits the `Node` \u2192 `optional<Node>` encoding change (#3), which changes the wire format, and the new PartialGroupInfo rejection rule (#6). This adds both.\n",
+      "createdAt": "2026-11-02T19:00:56Z",
+      "updatedAt": "2026-11-02T19:00:58Z",
+      "baseRepository": "mlswg/mls-ratchet-tree-options",
+      "baseRefName": "main",
+      "baseRefOid": "9b8ec95ca92529a8727fa196f280699cb2b58f29",
+      "headRepository": "MarkAtwood/mls-ratchet-tree-options",
+      "headRefName": "editorial-02-cleanup",
+      "headRefOid": "f18fb53b5f7b75bb2a1da04d2759018e0caedd58",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
