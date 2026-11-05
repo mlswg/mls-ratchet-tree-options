@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-03T04:43:13.081332+00:00",
+  "timestamp": "2026-11-05T04:26:23.940194+00:00",
   "repo": "mlswg/mls-ratchet-tree-options",
   "labels": [
     {
@@ -188,6 +188,22 @@
       "body": "\u00a74 (md L191-197): \"If a PartialGroupInfo is received with a `ratchet_tree` extension, the entire message is rejected.\"\n\nThere is no BCP 14 keyword, so this isn't a requirement on the receiver, and \"the entire message\" is undefined: the PartialGroupInfo alone, or the commit bundle / MIMI update that carries it. Rejecting the PartialGroupInfo but processing the commit leaves the hub unable to rebuild the GroupInfo; rejecting the whole bundle drops a valid commit. Two hubs that pick differently diverge on the same input.\n\nSuggested fix: \"A receiver MUST reject a PartialGroupInfo whose `group_info_extensions` contains a `ratchet_tree` extension\", and state what happens to the commit it accompanies, or defer that to the carrying protocol.\n",
       "createdAt": "2026-11-02T19:01:25Z",
       "updatedAt": "2026-11-02T19:01:25Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 11,
+      "id": "I_kwDOLhXx3s8AAAABchB1zQ",
+      "title": "0x000A is still read as last_resort by OpenMLS",
+      "url": "https://github.com/mlswg/mls-ratchet-tree-options/issues/11",
+      "state": "OPEN",
+      "author": "MarkAtwood",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u00a76.2 suggests 0x000A for ratchet_tree_source_domains. mls-extensions-04 and -05 suggested the same value for the last_resort_key_package extension, and OpenMLS still parses 0x000a that way. It expects an empty body, so a non-empty ratchet_tree_source_domains fails to decode instead of being skipped as unknown. That's true of 0.9.2 and of current main.\n\n0x000A isn't registered, so the suggestion is fine on paper, and I filed the OpenMLS side as openmls/openmls#2318. But clients already deployed won't get that fix. Picking another value avoids the problem. Your coordination list has extension types up to 0x0011 taken, so 0x0012 looks free.\n",
+      "createdAt": "2026-11-04T18:14:32Z",
+      "updatedAt": "2026-11-04T18:14:32Z",
       "closedAt": null,
       "comments": []
     }
