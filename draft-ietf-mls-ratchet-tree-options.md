@@ -188,6 +188,32 @@ The value of `ratchet_tree_presence` is defined as follows:
 - `added`: there is a `ratchet_tree` extension in the current epoch
   but there was none in the previous epoch.
 
+A PartialGroupInfo sent on its own is carried in an MLSMessage
+({{Section 6 of !RFC9420}}) with the `wire_format` set to
+`mls_partial_group_info`, which adds the following case to the MLSMessage
+`select`:
+
+~~~ tls
+struct {
+    ProtocolVersion version = mls10;
+    WireFormat wire_format;
+    select (MLSMessage.wire_format) {
+        /* cases defined in RFC 9420 */
+        case mls_partial_group_info:
+            PartialGroupInfo partial_group_info;
+    };
+} MLSMessage;
+~~~
+
+A protocol that defines its own field for a PartialGroupInfo, such as the
+`GroupInfoOption` in {{?I-D.ietf-mimi-protocol}}, carries the PartialGroupInfo
+struct in that field directly, without MLSMessage framing.
+
+A PartialGroupInfo is used by whoever reconstructs the GroupInfo; group members
+do not process it as a message within the group. The `mls_partial_group_info`
+wire format therefore does not need to appear in the `supported_wire_formats`
+or `required_wire_formats` extensions ({{?I-D.ietf-mls-extensions}}).
+
 The `group_info_extensions` object is the list of GroupInfo
 extensions, omitting any `ratchet_tree` extension (if present). The only
 other GroupInfo extension defined in the base protocol is `external_pub`,
