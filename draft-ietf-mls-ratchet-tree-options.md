@@ -192,9 +192,10 @@ The `group_info_extensions` object is the list of GroupInfo
 extensions, omitting any `ratchet_tree` extension (if present). The only
 other GroupInfo extension defined in the base protocol is `external_pub`,
 the group's public key for external joiners whose private key is held by the
-entire group. The `group_info_extensions` is often an empty list. If a
-PartialGroupInfo is received with a `ratchet_tree` extension, the entire message
-is rejected.
+entire group. The `group_info_extensions` is often an empty list. A receiver
+MUST reject a PartialGroupInfo whose `group_info_extensions` contains a
+`ratchet_tree` extension. What happens to a commit that such a PartialGroupInfo
+accompanies is defined by the protocol that carries them.
 
 The `signature` in the PartialGroupInfo is the signature produced by the
 committer (represented by its leaf index in the GroupInfo as the `signer`), as
