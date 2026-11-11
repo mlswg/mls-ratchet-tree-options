@@ -241,7 +241,7 @@ This document registers the `mls_partial_group_info` MLS Wire Format, using the 
 
 This document registers the `ratchet_tree_source_domains` MLS Extension Type, using the template below:
 
-- Value: 0x000A (suggested)
+- Value: 0x0012 (suggested)
 - Name: ratchet_tree_source_domains
 - Messages: GC
 - Recommended: Y
