@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-12T05:02:46.767991+00:00",
+  "timestamp": "2026-11-17T05:51:18.861984+00:00",
   "repo": "mlswg/mls-ratchet-tree-options",
   "labels": [
     {
@@ -473,7 +473,7 @@
       "labels": [],
       "body": "Fixes #11.\n\n0x000A was the suggested value for `last_resort_key_package` in mls-extensions-04 and -05, and OpenMLS still parses extension type 0x000A that way (openmls/openmls#2318). It expects an empty body, so a non-empty `ratchet_tree_source_domains` fails to decode in deployed clients instead of being skipped as unknown. 0x0012 is free in the registry coordination list (mls@ietf.org, 1 Nov), and I noted it there.",
       "createdAt": "2026-11-11T22:57:25Z",
-      "updatedAt": "2026-11-11T22:57:26Z",
+      "updatedAt": "2026-11-16T17:41:41Z",
       "baseRepository": "mlswg/mls-ratchet-tree-options",
       "baseRefName": "main",
       "baseRefOid": "9b8ec95ca92529a8727fa196f280699cb2b58f29",
@@ -484,7 +484,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "MarkAtwood",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@rohanmahy, a nudge on this one, since it's the only change in the draft that's needed for interop. With 0x000A, a deployed OpenMLS client reads a `ratchet_tree_source_domains` extension as the old `last_resort_key_package` and fails to decode it, instead of skipping it as unknown. Fixing that in OpenMLS means changing how it maps extension types in its public API, and I've asked its maintainers about that in openmls/openmls#2318. Moving the suggested value to 0x0012 avoids the problem without touching OpenMLS. It's a one-line change, and 0x0012 is noted in the registry coordination thread on mls@ (1 Nov).\n\n#13, #14 and #8 are also open against -02, if you're putting together a -03.\n",
+          "createdAt": "2026-11-16T17:41:41Z",
+          "updatedAt": "2026-11-16T17:41:41Z"
+        }
+      ],
       "reviews": []
     },
     {
