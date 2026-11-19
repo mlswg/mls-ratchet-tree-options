@@ -109,7 +109,6 @@ struct {
 
 - `full` indicates that the complete `ratchet_tree` extension is included in
 the RatchetTreeOption object.
-- `httpsUri` indicates that the `ratchet_tree` can be downloaded from a
 - `httpsUrl` indicates that the `ratchet_tree` can be downloaded from a
 URL using the `https:` scheme.
 - `outOfBand` indicates that the `ratchet_tree` is communicated or
@@ -257,6 +256,8 @@ This document registers the `ratchet_tree_source_domains` MLS Extension Type, us
 - Clarify how to build the PartialGroupInfo signature when the original GroupInfo included the ratchet_tree extension
 - Added an IANA Wire Format registration (#2)
 - Added a suggested value for the `ratchet_tree_source-domains` extension
+- Changed the `full` ratchet tree to `optional<Node>`, matching the RFC 9420 `ratchet_tree` extension (#3)
+- Added a rejection rule for a PartialGroupInfo received with a `ratchet_tree` extension (#6)
 
 ## Changes between ietf-...-00 and -01
 
