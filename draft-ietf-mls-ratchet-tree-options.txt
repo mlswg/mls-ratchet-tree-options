@@ -4,8 +4,8 @@
 
 Messaging Layer Security                                         R. Mahy
 Internet-Draft                            Rohan Mahy Consulting Services
-Intended status: Informational                           1 November 2026
-Expires: 5 May 2027
+Intended status: Informational                          19 November 2026
+Expires: 23 May 2027
 
 
       Ways to convey the Ratchet Tree in Messaging Layer Security
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 May 2027.
+   This Internet-Draft will expire on 23 May 2027.
 
 Copyright Notice
 
@@ -164,8 +164,6 @@ Table of Contents
 
    *  full indicates that the complete ratchet_tree extension is
       included in the RatchetTreeOption object.
-
-   *  httpsUri indicates that the ratchet_tree can be downloaded from a
 
    *  httpsUrl indicates that the ratchet_tree can be downloaded from a
       URL using the https: scheme.
@@ -367,23 +365,23 @@ Table of Contents
               Barnes, R., Hodgson, M., Kohbrok, K., Mahy, R., Ralston,
               T., and R. Robert, "More Instant Messaging
               Interoperability (MIMI) using HTTPS and MLS", Work in
-              Progress, Internet-Draft, draft-ietf-mimi-protocol-06, 25
-              April 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-mimi-protocol-06>.
+              Progress, Internet-Draft, draft-ietf-mimi-protocol-07, 2
+              November 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-mimi-protocol-07>.
 
    [I-D.ietf-mls-pq-ciphersuites]
               Mahy, R. and R. Barnes, "ML-KEM and Hybrid Cipher Suites
               for Messaging Layer Security", Work in Progress, Internet-
-              Draft, draft-ietf-mls-pq-ciphersuites-06, 21 July 2026,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-mls-pq-
-              ciphersuites-06>.
+              Draft, draft-ietf-mls-pq-ciphersuites-08, 18 November
+              2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              mls-pq-ciphersuites-08>.
 
    [I-D.mahy-mls-semiprivatemessage]
               Mahy, R., "Semi-Private Messages in the Messaging Layer
               Security (MLS) Protocol", Work in Progress, Internet-
-              Draft, draft-mahy-mls-semiprivatemessage-07, 19 April
+              Draft, draft-mahy-mls-semiprivatemessage-08, 1 November
               2026, <https://datatracker.ietf.org/doc/html/draft-mahy-
-              mls-semiprivatemessage-07>.
+              mls-semiprivatemessage-08>.
 
    [I-D.robert-mimi-delivery-service]
               Robert, R. and K. Kohbrok, "MIMI Delivery Service", Work
@@ -403,6 +401,12 @@ A.1.  Changes between ietf-...-01 and -02
 
    *  Added a suggested value for the ratchet_tree_source-domains
       extension
+
+   *  Changed the full ratchet tree to optional<Node>, matching the RFC
+      9420 ratchet_tree extension (#3)
+
+   *  Added a rejection rule for a PartialGroupInfo received with a
+      ratchet_tree extension (#6)
 
 A.2.  Changes between ietf-...-00 and -01
 
