@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-17T05:51:18.861984+00:00",
+  "timestamp": "2026-11-22T04:15:26.197073+00:00",
   "repo": "mlswg/mls-ratchet-tree-options",
   "labels": [
     {
@@ -152,10 +152,12 @@
       "author": "MarkAtwood",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "needs-discussion"
+      ],
       "body": "-02 \u00a74 says: \"For implementations that support PartialGroupInfo, if the ratchet_tree extension is ever present in the signed GroupInfo, it MUST be the last element in the extension list.\"\n\nThe scope doesn't work. The committer signs the GroupInfo, but whether it later travels as a PartialGroupInfo is decided afterwards, by a hub or DS the committer may know nothing about. A receiver that rebuilds the full GroupInfo by appending ratchet_tree can verify the signature only if the committer put ratchet_tree last. So the rule has to bind every committer that includes ratchet_tree, whether or not it supports PartialGroupInfo, and RFC 9420 puts no order on GroupInfo extensions.\n\nCurrent implementations don't put it last:\n\n- OpenMLS (main, `commit_builder.rs`) adds ratchet_tree first, then the application's GroupInfo extensions, then external_pub. Any GroupInfo with ratchet_tree and external_pub has ratchet_tree first.\n- mls-rs puts ratchet_tree after external_pub, but with its `grease` feature it adds a GREASE extension at the end just before signing.\n\nA GroupInfo signed by either can't be sent as a PartialGroupInfo that verifies after reconstruction.\n\nEither of these fixes it:\n\n1. Require it of every committer: a GroupInfo that contains ratchet_tree MUST have it as the last extension, GREASE included. This needs existing implementations to change and a statement that it updates RFC 9420 behavior.\n2. Carry the position: add the index ratchet_tree had in the signed extension list to PartialGroupInfo, and reinsert it there when rebuilding. This works with GroupInfos that existing implementations already sign.\n\nFound implementing PartialGroupInfo reconstruction in mimid.\n",
       "createdAt": "2026-11-02T18:35:10Z",
-      "updatedAt": "2026-11-11T22:58:26Z",
+      "updatedAt": "2026-11-19T21:06:11Z",
       "closedAt": null,
       "comments": [
         {
@@ -164,6 +166,13 @@
           "body": "@rohanmahy, before sending a PR for this one I'd like your view, since it replaces your rule. I see three ways to fix it:\n\n1. **Keep \"MUST be last\" and make it bind every committer that includes `ratchet_tree`.** This needs no encoding change. But the extension order is set inside the MLS library when it signs the GroupInfo, so OpenMLS and mls-rs would both have to change: OpenMLS puts `ratchet_tree` first, and mls-rs adds GREASE after it. Binding committers that don't implement this draft also comes close to updating RFC 9420.\n2. **Carry the position.** Add `optional<uint32> ratchet_tree_index` to PartialGroupInfo, present when `ratchet_tree_presence` is `present` or `added`, and reinsert the extension there when rebuilding. This works with GroupInfos that any RFC 9420 implementation already signs; the change is confined to the code that builds and rebuilds PartialGroupInfo. The cost is one field in the struct. I have it written at https://github.com/MarkAtwood/mls-ratchet-tree-options/tree/issue-7 and can open it as a PR.\n3. **Never put `ratchet_tree` in a GroupInfo meant for PartialGroupInfo**, and deliver the tree out of band with `RatchetTreeOption` instead. mimi-protocol's commit bundle already says \"Both the Welcome and GroupInfo omit the ratchet_tree\" next to `GroupInfoOption` and `RatchetTreeOption`. If that holds, `ratchet_tree_presence` is always `no_ratchet_tree` in MIMI and the ordering problem never arises there. The question is whether any other user needs `present` and `added`.\n\nI lean toward 2, or toward 3 if MIMI is the only expected user.\n",
           "createdAt": "2026-11-11T22:58:26Z",
           "updatedAt": "2026-11-11T22:58:26Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #6 . Still should discuss implications with WG",
+          "createdAt": "2026-11-19T21:06:04Z",
+          "updatedAt": "2026-11-19T21:06:04Z"
         }
       ]
     },
@@ -179,41 +188,65 @@
       "labels": [],
       "body": "\u00a76.1 (md L231-238) registers a wire format, `mls_partial_group_info` (0x0010 suggested), but the body never uses it. Nothing adds a `case mls_partial_group_info: PartialGroupInfo partial_group_info;` arm to the RFC 9420 \u00a76 `MLSMessage` `select (wire_format)`, nothing says when a PartialGroupInfo is sent MLSMessage-framed and when it travels bare next to a commit, and nothing says whether a member must list the new value in `supported_wire_formats` / `required_wire_formats` (draft-ietf-mls-extensions).\n\nAs written, one implementation can send a framed `MLSMessage{wire_format=0x0010}` while another sends bare `PartialGroupInfo` bytes, and a receiver can't tell which it got. A codepoint with no defined encoding also can't be checked against capabilities.\n\nSuggested fix: add the `MLSMessage` arm, state where PartialGroupInfo is MLSMessage-framed and where (if anywhere) it is carried bare, and say whether `mls_partial_group_info` must appear in `supported_wire_formats` before a committer sends one. If it is never framed, drop the registration.\n",
       "createdAt": "2026-11-02T19:01:24Z",
-      "updatedAt": "2026-11-02T19:01:24Z",
+      "updatedAt": "2026-11-19T21:07:51Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I don't think this is necessary. Plus TLS Presentation Language doesn't have a great way to represent this.",
+          "createdAt": "2026-11-19T21:07:51Z",
+          "updatedAt": "2026-11-19T21:07:51Z"
+        }
+      ]
     },
     {
       "number": 10,
       "id": "I_kwDOLhXx3s8AAAABb7Q-LQ",
       "title": "\u00a74: PartialGroupInfo ratchet_tree rejection has no keyword and no scope",
       "url": "https://github.com/mlswg/mls-ratchet-tree-options/issues/10",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "MarkAtwood",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "\u00a74 (md L191-197): \"If a PartialGroupInfo is received with a `ratchet_tree` extension, the entire message is rejected.\"\n\nThere is no BCP 14 keyword, so this isn't a requirement on the receiver, and \"the entire message\" is undefined: the PartialGroupInfo alone, or the commit bundle / MIMI update that carries it. Rejecting the PartialGroupInfo but processing the commit leaves the hub unable to rebuild the GroupInfo; rejecting the whole bundle drops a valid commit. Two hubs that pick differently diverge on the same input.\n\nSuggested fix: \"A receiver MUST reject a PartialGroupInfo whose `group_info_extensions` contains a `ratchet_tree` extension\", and state what happens to the commit it accompanies, or defer that to the carrying protocol.\n",
       "createdAt": "2026-11-02T19:01:25Z",
-      "updatedAt": "2026-11-02T19:01:25Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-11-19T21:04:31Z",
+      "closedAt": "2026-11-19T21:04:31Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Keywords are not necessary for normative text. Closing",
+          "createdAt": "2026-11-19T21:04:31Z",
+          "updatedAt": "2026-11-19T21:04:31Z"
+        }
+      ]
     },
     {
       "number": 11,
       "id": "I_kwDOLhXx3s8AAAABchB1zQ",
       "title": "0x000A is still read as last_resort by OpenMLS",
       "url": "https://github.com/mlswg/mls-ratchet-tree-options/issues/11",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "MarkAtwood",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "\u00a76.2 suggests 0x000A for ratchet_tree_source_domains. mls-extensions-04 and -05 suggested the same value for the last_resort_key_package extension, and OpenMLS still parses 0x000a that way. It expects an empty body, so a non-empty ratchet_tree_source_domains fails to decode instead of being skipped as unknown. That's true of 0.9.2 and of current main.\n\n0x000A isn't registered, so the suggestion is fine on paper, and I filed the OpenMLS side as openmls/openmls#2318. But clients already deployed won't get that fix. Picking another value avoids the problem. Your coordination list has extension types up to 0x0011 taken, so 0x0012 looks free.\n",
       "createdAt": "2026-11-04T18:14:32Z",
-      "updatedAt": "2026-11-04T18:14:32Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-11-19T21:06:50Z",
+      "closedAt": "2026-11-19T21:06:50Z",
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm closing this one. OpenMLS has had 2 years to remove this commando code point.",
+          "createdAt": "2026-11-19T21:06:50Z",
+          "updatedAt": "2026-11-19T21:06:50Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -440,47 +473,63 @@
       "id": "PR_kwDOLhXx3s8AAAABMYVxMg",
       "title": "Remove stray httpsUri bullet; complete -02 log",
       "url": "https://github.com/mlswg/mls-ratchet-tree-options/pull/8",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "MarkAtwood",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "\u00a73 has a half-bullet (\"`httpsUri` indicates that the `ratchet_tree` can be downloaded from a\") left over when the #3 suggestions were applied, directly above the correct `httpsUrl` bullet. This deletes it.\n\nThe -02 change log also omits the `Node` \u2192 `optional<Node>` encoding change (#3), which changes the wire format, and the new PartialGroupInfo rejection rule (#6). This adds both.\n",
       "createdAt": "2026-11-02T19:00:56Z",
-      "updatedAt": "2026-11-02T19:00:58Z",
+      "updatedAt": "2026-11-19T21:03:16Z",
       "baseRepository": "mlswg/mls-ratchet-tree-options",
       "baseRefName": "main",
       "baseRefOid": "9b8ec95ca92529a8727fa196f280699cb2b58f29",
       "headRepository": "MarkAtwood/mls-ratchet-tree-options",
       "headRefName": "editorial-02-cleanup",
       "headRefOid": "f18fb53b5f7b75bb2a1da04d2759018e0caedd58",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-11-19T21:03:16Z",
+      "mergedAt": "2026-11-19T21:03:16Z",
+      "mergedBy": "rohanmahy",
+      "mergeCommit": {
+        "oid": "9640a5fa7bb37c6059929db1d294ec5fcc70697d"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOLhXx3s8AAAABZKLHDA",
+          "commit": {
+            "abbreviatedOid": "f18fb53"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-19T21:03:06Z",
+          "updatedAt": "2026-11-19T21:03:06Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 12,
       "id": "PR_kwDOLhXx3s8AAAABOgAFLg",
       "title": "Suggest 0x0012 for ratchet_tree_source_domains",
       "url": "https://github.com/mlswg/mls-ratchet-tree-options/pull/12",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "MarkAtwood",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Fixes #11.\n\n0x000A was the suggested value for `last_resort_key_package` in mls-extensions-04 and -05, and OpenMLS still parses extension type 0x000A that way (openmls/openmls#2318). It expects an empty body, so a non-empty `ratchet_tree_source_domains` fails to decode in deployed clients instead of being skipped as unknown. 0x0012 is free in the registry coordination list (mls@ietf.org, 1 Nov), and I noted it there.",
       "createdAt": "2026-11-11T22:57:25Z",
-      "updatedAt": "2026-11-16T17:41:41Z",
+      "updatedAt": "2026-11-19T20:55:53Z",
       "baseRepository": "mlswg/mls-ratchet-tree-options",
       "baseRefName": "main",
       "baseRefOid": "9b8ec95ca92529a8727fa196f280699cb2b58f29",
       "headRepository": "MarkAtwood/mls-ratchet-tree-options",
       "headRefName": "issue-11",
       "headRefOid": "be829281b6d9c7ccf358e6b99e58bb22365f1c8b",
-      "closedAt": null,
+      "closedAt": "2026-11-19T20:55:53Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -491,6 +540,13 @@
           "body": "@rohanmahy, a nudge on this one, since it's the only change in the draft that's needed for interop. With 0x000A, a deployed OpenMLS client reads a `ratchet_tree_source_domains` extension as the old `last_resort_key_package` and fails to decode it, instead of skipping it as unknown. Fixing that in OpenMLS means changing how it maps extension types in its public API, and I've asked its maintainers about that in openmls/openmls#2318. Moving the suggested value to 0x0012 avoids the problem without touching OpenMLS. It's a one-line change, and 0x0012 is noted in the registry coordination thread on mls@ (1 Nov).\n\n#13, #14 and #8 are also open against -02, if you're putting together a -03.\n",
           "createdAt": "2026-11-16T17:41:41Z",
           "updatedAt": "2026-11-16T17:41:41Z"
+        },
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> @rohanmahy, a nudge on this one, since it's the only change in the draft that's needed for interop. With 0x000A, a deployed OpenMLS client reads a `ratchet_tree_source_domains` extension as the old `last_resort_key_package` and fails to decode it, instead of skipping it as unknown. Fixing that in OpenMLS means changing how it maps extension types in its public API, and I've asked its maintainers about that in [openmls/openmls#2318](https://github.com/openmls/openmls/issues/2318). Moving the suggested value to 0x0012 avoids the problem without touching OpenMLS. It's a one-line change, and 0x0012 is noted in the registry coordination thread on mls@ (1 Nov).\r\n> \r\n> #13, #14 and #8 are also open against -02, if you're putting together a -03.\r\n\r\nI'm closing this one. \r\n\r\nLast resort key package hasn't been extension for over 2 years (it's a component). I am not inclined to change this (again) for something that should have been removed a long time ago from OpenMLS.\r\n\r\nTo avoid this problem in the future I created [this gist](https://gist.github.com/rohanmahy/03e79adb0c52044145d4494d7796b90c). I will honor those assignments even if there are changes in the future.",
+          "createdAt": "2026-11-19T20:55:53Z",
+          "updatedAt": "2026-11-19T20:55:53Z"
         }
       ],
       "reviews": []
@@ -500,25 +556,33 @@
       "id": "PR_kwDOLhXx3s8AAAABOgAGiw",
       "title": "Make the PartialGroupInfo ratchet_tree rejection a requirement",
       "url": "https://github.com/mlswg/mls-ratchet-tree-options/pull/13",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "MarkAtwood",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Fixes #10.\n\nThe rejection had no BCP 14 keyword, and \"the entire message\" could mean the PartialGroupInfo alone or the commit bundle carrying it. This makes it a MUST on the PartialGroupInfo and leaves what happens to the accompanying commit to the carrying protocol, which is the layer that knows what the bundle is.",
       "createdAt": "2026-11-11T22:57:27Z",
-      "updatedAt": "2026-11-11T22:57:28Z",
+      "updatedAt": "2026-11-19T21:02:28Z",
       "baseRepository": "mlswg/mls-ratchet-tree-options",
       "baseRefName": "main",
       "baseRefOid": "9b8ec95ca92529a8727fa196f280699cb2b58f29",
       "headRepository": "MarkAtwood/mls-ratchet-tree-options",
       "headRefName": "issue-10",
       "headRefOid": "44d6ed8bca5b38994c44cfd590fd92c638c6adbf",
-      "closedAt": null,
+      "closedAt": "2026-11-19T21:02:27Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing.\r\n\r\nBCP 14 language is NOT RECOMMENDED when the intent of a direct statement is clear. The second sentence doesn't actually say anything actionable.",
+          "createdAt": "2026-11-19T21:02:27Z",
+          "updatedAt": "2026-11-19T21:02:27Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -533,7 +597,7 @@
       "labels": [],
       "body": "Fixes #9.\n\nThe draft registers `mls_partial_group_info` but never uses it. This adds:\n\n- the `MLSMessage` case for a PartialGroupInfo sent on its own;\n- that a protocol with its own field for one (MIMI's `GroupInfoOption`, which already carries the bare struct) carries it directly, without MLSMessage framing;\n- that the wire format needn't appear in `supported_wire_formats` / `required_wire_formats`, since group members don't process a PartialGroupInfo as a group message.\n\nThe last point is my reading rather than something the draft already says; happy to drop it if you see a case where members do process one.",
       "createdAt": "2026-11-11T22:57:29Z",
-      "updatedAt": "2026-11-11T22:57:30Z",
+      "updatedAt": "2026-11-19T21:43:09Z",
       "baseRepository": "mlswg/mls-ratchet-tree-options",
       "baseRefName": "main",
       "baseRefOid": "9b8ec95ca92529a8727fa196f280699cb2b58f29",
@@ -544,8 +608,44 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "comments": [
+        {
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi,\r\nIs anyone sending a bare PartialGroupInfo right now?  @MarkAtwood, one implementer would be sufficient IMO.",
+          "createdAt": "2026-11-19T20:58:59Z",
+          "updatedAt": "2026-11-19T20:58:59Z"
+        },
+        {
+          "author": "MarkAtwood",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@rohanmahy Two implementations, one each way. mimid's hub accepts a PartialGroupInfo framed as an MLSMessage with wire format 0x0010 and rebuilds it into a GroupInfo. Haven carries the bare struct in MIMI's GroupInfoOption, as protocol \u00a75.3 writes it. Since both framings are in use, the draft should say which applies where; that's all this PR does.\n",
+          "createdAt": "2026-11-19T21:43:09Z",
+          "updatedAt": "2026-11-19T21:43:09Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOLhXx3s8AAAABZKGLog",
+          "commit": {
+            "abbreviatedOid": "9d8845e"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-19T20:57:37Z",
+          "updatedAt": "2026-11-19T20:57:37Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "```suggestion\n        ...\n        case mls_partial_group_info:\n            PartialGroupInfo partial_group_info;\n        ...\n```",
+              "createdAt": "2026-11-19T20:57:37Z",
+              "updatedAt": "2026-11-19T20:57:37Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
